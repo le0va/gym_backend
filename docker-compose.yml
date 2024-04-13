@@ -1,0 +1,83 @@
+version: "3"
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: postgres
+    ports:
+    - "5432:5432"
+    volumes:
+    - your-data:/var/lib/postgresql/data
+    env_file:
+    - docker.env
+    networks:
+    - postgres
+    # command: ["postgres", "-c", "listen_addresses=*"]
+
+  pgadmin:
+    links:
+    - postgres:postgres
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    ports:
+    - "8080:80"
+    volumes:
+    - your-data-admin:/root/.pgadmin
+    env_file:
+    - docker.env
+    networks:
+    - postgres
+
+volumes:
+  your-data:
+    driver: local
+  your-data-admin:
+    driver: local
+
+networks:
+  postgres:
+    driver: bridge
+
+
+
+# version: "3"
+# services:
+#   postgres:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.postgres
+#     container_name: postgres
+#     image: postgres:latest
+#     ports:
+#     - "5432:5432"
+#     volumes:
+#     - your-data:/var/lib/postgresql/data
+#     env_file:
+#     - docker.env
+#     networks:
+#     - postgres
+
+#   pgadmin:
+#     links:
+#     - postgres:postgres
+#     container_name: pgadmin
+#     image: dpage/pgadmin4
+#     ports:
+#     - "8080:80"
+#     volumes:
+#     - your-data-admin:/root/.pgadmin
+#     env_file:
+#     - docker.env
+#     networks:
+#     - postgres
+
+# volumes:
+#   your-data:
+#     driver: local
+#   your-data-admin:
+#     driver: local
+
+# networks:
+#   postgres:
+#     driver: bridge
