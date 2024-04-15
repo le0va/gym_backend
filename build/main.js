@@ -18,6 +18,7 @@ async function bootstrap() {
         }
     }));
     app.use(cookieParser());
+    app.setGlobalPrefix('api');
     await app.listen(5000, '0.0.0.0');
 }
 bootstrap();
