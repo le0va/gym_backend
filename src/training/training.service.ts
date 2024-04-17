@@ -78,13 +78,14 @@ export class TrainingService {
             endOfDay.setHours(23, 59, 59, 999);
         }
         const searchCond = search ? this.parseSearchString(search) : null;
-        const orderByCond = orderBy === OrderBy.userName ? 'user.name' :
-            orderBy === OrderBy.room ? 'user.room' :
-                orderBy === OrderBy.trainingStart ? 'session.start' : 'session.end';
+        const orderByCond = orderBy === OrderBy.hostel ? 'user.hostel' :
+            orderBy === OrderBy.userName ? 'user.name' :
+                orderBy === OrderBy.room ? 'user.room' :
+                    orderBy === OrderBy.trainingStart ? 'session.start' : 'session.end';
 
         queryBuilder
             .innerJoin('session.user', 'user')
-            .select(['session', 'user.name', 'user.room'])
+            .select(['session', 'user.hostel', 'user.room', 'user.name'])
             .where(date ? 'session.start >= :startOfDay AND session.start <= :endOfDay' : '1=1', { startOfDay, endOfDay })
             .andWhere(searchCond ? searchCond.query : '1=1', searchCond?.params)
             .orderBy(orderByCond, order)
@@ -116,11 +117,11 @@ export class TrainingService {
         return countRecentSessions;
     }
 
-    
+
     private parseSearchString(search: string) {
         const result = search.trim().split(/\s+/).reduce((result, current, i) => {
             result.query += i > 0 ? ' AND ' : '';
-            result.query += `(CAST(user.room AS TEXT) LIKE :searchParam${i} OR user.name ILIKE :searchParam${i})`;
+            result.query += `(CAST(user.hostel AS TEXT) LIKE :searchParam${i} OR (CAST(user.room AS TEXT) LIKE :searchParam${i} OR user.name ILIKE :searchParam${i})`;
             result.params[`searchParam${i}`] = `%${current}%`;
             return result;
         }, { query: '', params: {} });

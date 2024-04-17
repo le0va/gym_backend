@@ -6,8 +6,9 @@ enum Order {
 }
 
 export enum OrderBy {
-    userName = 'userName',
+    hostel = 'hostel',
     room = 'room',
+    userName = 'userName',
     trainingStart = 'trainingStart',
     trainingEnd = 'trainingEnd'
 }
