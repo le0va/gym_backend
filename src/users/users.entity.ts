@@ -9,6 +9,9 @@ class User {
     public id: number;
 
     @Column({ nullable: true })
+    public hostel: number;
+
+    @Column({ nullable: true })
     public room: number;
 
     @Column({ nullable: true })

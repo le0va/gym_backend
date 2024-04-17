@@ -19,7 +19,7 @@ export class UsersService {
         let users: User[] = [];
         switch (filter) {
             case 'all':
-                users = await this.usersRepository.find({ select: ['id', 'room', 'name', 'trainingStart'] });
+                users = await this.usersRepository.find({ select: ['id', 'hostel', 'room', 'name', 'trainingStart'] });
                 break;
             case 'training':
                 users = await this.usersRepository.find({
@@ -27,7 +27,7 @@ export class UsersService {
                         trainingStart: Not(IsNull())
                     },
                     select: [
-                        'id', 'room', 'name', 'trainingStart'
+                        'id', 'hostel', 'room', 'name', 'trainingStart'
                     ]
                 });
                 break;
@@ -65,9 +65,10 @@ export class UsersService {
 
     async update(id: number, updateData: UpdateUserDto) {
         const user = await this.getById(id);
-        user.name = updateData.name ?? user.name;
+        user.hostel = updateData.hostel ?? user.hostel;
         user.room = updateData.room ?? user.room;
-        if (user.name && user.room && !user.roles.includes(Role.user)) {
+        user.name = updateData.name ?? user.name;
+        if (user.hostel && user.room && user.name && !user.roles.includes(Role.user)) {
             user.roles.push(Role.user);
         }
         await this.usersRepository.save(user);
