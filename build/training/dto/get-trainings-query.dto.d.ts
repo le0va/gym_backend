@@ -3,8 +3,9 @@ declare enum Order {
     DESC = "DESC"
 }
 export declare enum OrderBy {
-    userName = "userName",
+    hostel = "hostel",
     room = "room",
+    userName = "userName",
     trainingStart = "trainingStart",
     trainingEnd = "trainingEnd"
 }

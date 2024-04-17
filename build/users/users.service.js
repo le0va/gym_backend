@@ -28,7 +28,7 @@ let UsersService = class UsersService {
         let users = [];
         switch (filter) {
             case 'all':
-                users = await this.usersRepository.find({ select: ['id', 'room', 'name', 'trainingStart'] });
+                users = await this.usersRepository.find({ select: ['id', 'hostel', 'room', 'name', 'trainingStart'] });
                 break;
             case 'training':
                 users = await this.usersRepository.find({
@@ -36,7 +36,7 @@ let UsersService = class UsersService {
                         trainingStart: (0, typeorm_1.Not)((0, typeorm_1.IsNull)())
                     },
                     select: [
-                        'id', 'room', 'name', 'trainingStart'
+                        'id', 'hostel', 'room', 'name', 'trainingStart'
                     ]
                 });
                 break;
@@ -66,9 +66,10 @@ let UsersService = class UsersService {
     }
     async update(id, updateData) {
         const user = await this.getById(id);
-        user.name = updateData.name ?? user.name;
+        user.hostel = updateData.hostel ?? user.hostel;
         user.room = updateData.room ?? user.room;
-        if (user.name && user.room && !user.roles.includes(role_enum_1.default.user)) {
+        user.name = updateData.name ?? user.name;
+        if (user.hostel && user.room && user.name && !user.roles.includes(role_enum_1.default.user)) {
             user.roles.push(role_enum_1.default.user);
         }
         await this.usersRepository.save(user);

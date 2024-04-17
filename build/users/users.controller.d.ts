@@ -8,6 +8,7 @@ export declare class UsersController {
     getUserById(userId: string): Promise<{
         isUserTraining: boolean;
         id: number;
+        hostel: number;
         room: number;
         name: string;
         roles: import("./role.enum").default[];

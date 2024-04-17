@@ -6,6 +6,7 @@ export declare class AuthService {
     private readonly jwtService;
     constructor(usersService: UsersService, jwtService: JwtService);
     authenticateGoogle(token: string): Promise<{
+        hostel: number;
         room: number;
         name: string;
         trainingSessions: import("../training/training-sessions.entity").default[];

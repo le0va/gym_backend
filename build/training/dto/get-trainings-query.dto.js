@@ -18,8 +18,9 @@ var Order;
 })(Order || (Order = {}));
 var OrderBy;
 (function (OrderBy) {
-    OrderBy["userName"] = "userName";
+    OrderBy["hostel"] = "hostel";
     OrderBy["room"] = "room";
+    OrderBy["userName"] = "userName";
     OrderBy["trainingStart"] = "trainingStart";
     OrderBy["trainingEnd"] = "trainingEnd";
 })(OrderBy || (exports.OrderBy = OrderBy = {}));

@@ -14,13 +14,18 @@ class UpdateUserDto {
 }
 exports.default = UpdateUserDto;
 __decorate([
+    (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], UpdateUserDto.prototype, "name", void 0);
+    __metadata("design:type", Number)
+], UpdateUserDto.prototype, "hostel", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], UpdateUserDto.prototype, "room", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "name", void 0);
 //# sourceMappingURL=updateUser.dto.js.map

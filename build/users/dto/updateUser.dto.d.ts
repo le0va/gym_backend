@@ -1,4 +1,5 @@
 export default class UpdateUserDto {
-    name?: string;
+    hostel?: number;
     room?: number;
+    name?: string;
 }
