@@ -73,11 +73,11 @@ let UsersService = class UsersService {
             user.roles.push(role_enum_1.default.user);
         }
         await this.usersRepository.save(user);
-        const accessToken = this.getJwtToken(id, user.roles);
+        const accessToken = this.getJwtToken(id);
         return { accessToken, roles: user.roles };
     }
-    getJwtToken(userId, roles) {
-        const payload = { sub: userId, roles };
+    getJwtToken(userId) {
+        const payload = { sub: userId };
         const token = this.jwtService.sign(payload);
         return token;
     }

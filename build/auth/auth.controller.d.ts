@@ -6,10 +6,10 @@ export declare class AuthController {
         hostel: number;
         room: number;
         name: string;
+        roles: import("../users/role.enum").default[];
         trainingSessions: import("../training/training-sessions.entity").default[];
         id: number;
         accessToken: string;
-        roles: import("../users/role.enum").default[];
         isUserTraining: boolean;
     }>;
 }

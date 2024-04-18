@@ -15,5 +15,5 @@ export declare class UsersService {
         accessToken: string;
         roles: Role[];
     }>;
-    getJwtToken(userId: number, roles: Role[]): string;
+    getJwtToken(userId: number): string;
 }

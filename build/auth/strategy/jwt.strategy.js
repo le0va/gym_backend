@@ -18,13 +18,13 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
     constructor(configService) {
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
+            ignoreExpiration: true,
             secretOrKey: configService.get('JWT_SECRET')
         });
         this.configService = configService;
     }
     async validate(payload) {
-        return { id: payload.sub, roles: payload.roles };
+        return { id: payload.sub };
     }
 };
 exports.JwtStrategy = JwtStrategy;

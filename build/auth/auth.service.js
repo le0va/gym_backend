@@ -31,24 +31,24 @@ let AuthService = class AuthService {
             if (!authEmail || authEmail === '') {
                 throw new common_1.HttpException('Google account is not linked to an email', common_1.HttpStatus.BAD_REQUEST);
             }
-            const { id, email, roles, trainingStart, ...noSensetiveData } = await this.usersService.getByEmail(authEmail);
-            const accessToken = this.getJwtToken(id, roles);
-            return { id, accessToken, roles, isUserTraining: trainingStart ? true : false, ...noSensetiveData };
+            const { id, email, trainingStart, ...noSensetiveData } = await this.usersService.getByEmail(authEmail);
+            const accessToken = this.getJwtToken(id);
+            return { id, accessToken, isUserTraining: trainingStart ? true : false, ...noSensetiveData };
         }
         catch (err) {
             if (err?.message === 'Gmail account is not linked to an email') {
                 throw new common_1.HttpException(err.message, common_1.HttpStatus.BAD_REQUEST);
             }
             if (err?.message === 'User with this email does not exist' && authEmail !== undefined) {
-                const { id, email, roles, trainingStart, ...noSensetiveData } = await this.usersService.createWithGoogle(authEmail);
-                const accessToken = this.getJwtToken(id, roles);
-                return { id, accessToken, roles, isUserTraining: trainingStart ? true : false, ...noSensetiveData };
+                const { id, email, trainingStart, ...noSensetiveData } = await this.usersService.createWithGoogle(authEmail);
+                const accessToken = this.getJwtToken(id);
+                return { id, accessToken, isUserTraining: trainingStart ? true : false, ...noSensetiveData };
             }
             throw new common_1.HttpException('Error during google auth', common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    getJwtToken(userId, roles) {
-        const payload = { sub: userId, roles };
+    getJwtToken(userId) {
+        const payload = { sub: userId };
         const token = this.jwtService.sign(payload);
         return token;
     }

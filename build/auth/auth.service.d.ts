@@ -1,6 +1,5 @@
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import Role from 'src/users/role.enum';
 export declare class AuthService {
     private readonly usersService;
     private readonly jwtService;
@@ -9,11 +8,11 @@ export declare class AuthService {
         hostel: number;
         room: number;
         name: string;
+        roles: import("../users/role.enum").default[];
         trainingSessions: import("../training/training-sessions.entity").default[];
         id: number;
         accessToken: string;
-        roles: Role[];
         isUserTraining: boolean;
     }>;
-    getJwtToken(userId: number, roles: Role[]): string;
+    getJwtToken(userId: number): string;
 }
