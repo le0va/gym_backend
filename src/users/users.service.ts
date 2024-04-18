@@ -72,13 +72,13 @@ export class UsersService {
             user.roles.push(Role.user);
         }
         await this.usersRepository.save(user);
-        const accessToken = this.getJwtToken(id, user.roles);
+        const accessToken = this.getJwtToken(id);
         return { accessToken, roles: user.roles };
     }
 
 
-    public getJwtToken(userId: number, roles: Role[]) {
-        const payload = { sub: userId, roles };
+    public getJwtToken(userId: number) {
+        const payload = { sub: userId };
         const token = this.jwtService.sign(payload);
         return token;
     }
