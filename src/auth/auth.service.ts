@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { OAuth2Client } from 'google-auth-library';
-import Role from 'src/users/role.enum';
 
 
 const googleClient = new OAuth2Client(
@@ -31,25 +30,25 @@ export class AuthService {
                 throw new HttpException('Google account is not linked to an email', HttpStatus.BAD_REQUEST);
             }
             
-            const { id, email, roles, trainingStart, ...noSensetiveData } = await this.usersService.getByEmail(authEmail);      // if user registered
-            const accessToken = this.getJwtToken(id, roles);
-            return { id, accessToken, roles, isUserTraining: trainingStart ? true : false, ...noSensetiveData };
+            const { id, email, trainingStart, ...noSensetiveData } = await this.usersService.getByEmail(authEmail);      // if user registered
+            const accessToken = this.getJwtToken(id);
+            return { id, accessToken, isUserTraining: trainingStart ? true : false, ...noSensetiveData };
         }
         catch (err: any) {
             if (err?.message === 'Gmail account is not linked to an email') {
                 throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
             }
             if (err?.message === 'User with this email does not exist' && authEmail !== undefined) {
-                const { id, email, roles, trainingStart, ...noSensetiveData } = await this.usersService.createWithGoogle(authEmail);      // register new user
-                const accessToken = this.getJwtToken(id, roles);
-                return { id, accessToken, roles, isUserTraining: trainingStart ? true : false, ...noSensetiveData };
+                const { id, email, trainingStart, ...noSensetiveData } = await this.usersService.createWithGoogle(authEmail);      // register new user
+                const accessToken = this.getJwtToken(id);
+                return { id, accessToken, isUserTraining: trainingStart ? true : false, ...noSensetiveData };
             }
             throw new HttpException('Error during google auth', HttpStatus.BAD_REQUEST);
         }
     }
 
-    public getJwtToken(userId: number, roles: Role[]) {
-        const payload = { sub: userId, roles };
+    public getJwtToken(userId: number) {
+        const payload = { sub: userId };
         const token = this.jwtService.sign(payload);
         return token;
     }
